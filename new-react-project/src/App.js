@@ -1,11 +1,41 @@
+import { useState } from 'react'
 import Header from "./components/Header";
 import Tasks from "./components/Tasks";
 
 const App = () => {
+  const [tasks, setTasks] = useState([
+    {
+        id: 1,
+        text: 'Doctors Appointment',
+        day: '31/08/2022',
+        reminder: true,
+
+},
+{
+    id: 2,
+    text: 'Go to School',
+    day: '01/09/2022',
+    reminder: true,
+},
+{
+    id: 3,
+    text: 'Get Food',
+    day: '04/09/2022',
+    reminder: false,
+},
+])
+
+//delete tasks
+const deleteTask = (id) => {
+  setTasks(tasks.filter((task) => task.id !==
+  id))
+}
+
   return (
     <div className='container'>
       <Header  />
-      <Tasks/>
+      {tasks.length > 0 ? <Tasks tasks={tasks} onDelete=
+      {deleteTask} /> : 'No Tasks'}
     </div>
   );
 }
