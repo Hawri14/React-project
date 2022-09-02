@@ -1,31 +1,30 @@
-import { useState } from 'react'
+//to run erver do npm start in one termilan and in another do npm run server
+
+import { useState, useEffect } from 'react'
 import Header from "./components/Header";
 import Tasks from "./components/Tasks";
 import AddTask from "./components/AddTask";
 
 const App = () => {
   const [showAddTask, setShowAddTask] = useState(false)
-  const [tasks, setTasks] = useState([
-    {
-        id: 1,
-        text: 'Doctors Appointment',
-        day: '31/08/2022',
-        reminder: true,
+  const [tasks, setTasks] = useState([])
 
-},
-{
-    id: 2,
-    text: 'Go to School',
-    day: '01/09/2022',
-    reminder: true,
-},
-{
-    id: 3,
-    text: 'Get Food',
-    day: '04/09/2022',
-    reminder: false,
-},
-])
+  useEffect(() => {
+    const getTasks = async () => {
+      const tasksFromServer = await fetchTasks()
+      setTasks(tasksFromServer)
+    }
+
+    getTasks()
+  }, [])
+
+  // this this where we fetch the data 
+  const fetchTasks = async () => {
+    const res = await fetch('http://localhost:5000/tasks') 
+    const data = await res.json()
+
+    return data
+  }
 
 //Add Task
 const addTask = (task) => {
